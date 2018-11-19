@@ -1,0 +1,19 @@
+{
+    "name": "bhrdn/openlibrary-finaltask",
+    "description": "Final Task OOP",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "bhrdn",
+            "email": "bhrdn@ieee.org"
+        }
+    ],
+    "require": {
+        "php": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "OpenLibrary\\": "src/"
+        }
+    }
+}
