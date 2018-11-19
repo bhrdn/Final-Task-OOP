@@ -17,5 +17,12 @@
 const Route = use('Route')
 
 Route.get('/', () => {
-  return { greeting: 'Hello world in JSON' }
+  return "Hello :)"
 })
+
+Route.group(() => {
+	Route.post('books', 'BookController.store')
+	Route.get('books', 'BookController.index')
+	Route.put('books/:isbn', 'BookController.update')
+	Route.delete('books/:isbn', 'BookController.delete')
+}).prefix('api')

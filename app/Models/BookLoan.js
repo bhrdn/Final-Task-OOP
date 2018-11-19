@@ -9,7 +9,7 @@ class BookLoan extends Model {
 	}
 
 	static get primaryKey() {
-		return 'id_loan'
+		return 'id'
 	}
 }
 

@@ -9,7 +9,7 @@ class Book extends Model {
 	}
 
 	static get primaryKey() {
-		return 'isbn'
+		return 'id'
 	}
 }
 

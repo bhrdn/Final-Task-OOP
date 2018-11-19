@@ -9,7 +9,7 @@ class Student extends Model {
 	}
 
 	static get primaryKey() {
-		return 'nim'
+		return 'id'
 	}
 }
 
