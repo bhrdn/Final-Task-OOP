@@ -42,8 +42,9 @@ class ViewExtension implements ExtensionInterface
     {
         // Add app view data
         $engine->addData([
-            'base_js'  => [],
-            'base_css' => [],
+            'base_js'   => [],
+            'base_css'  => [],
+            'custom_js' => null,
         ]);
 
         // Register view js helpers
@@ -54,6 +55,11 @@ class ViewExtension implements ExtensionInterface
         // Register view css helpers
         $engine->registerFunction('appendCss', function (array $cssFiles = []) use ($engine) {
             $engine->addData(['base_css' => $cssFiles]);
+        });
+
+        // Register custom js helpers
+        $engine->registerFunction('customJs', function($x) use ($engine) {
+            $engine->addData(['custom_js' => $x]);
         });
     }
 }

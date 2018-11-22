@@ -23,12 +23,11 @@ abstract class Controllers
         }
     }
 
-    protected function setPageTitle($mainTitle = '', $subTitle = '')
+    protected function setPageTitle($mainTitle = '')
     {
         $this->view->addData([
-            'page_title'     => $mainTitle,
-            'sub_page_title' => $subTitle,
-        ]);
+            'page_title'     => $mainTitle
+        ], 'layouts::master');
     }
 
     protected function flashValidationErrors(array $errors)

@@ -54,7 +54,8 @@ $container['view'] = function ($container) {
 
     // Add app view folders
     $view->addFolder('layouts', $viewSettings['directory'] . '/layouts');
-    $view->addFolder('sections', $viewSettings['directory'].'/sections');
+    $view->addFolder('sections', $viewSettings['directory'] . '/sections');
+    $view->addFolder('books', $viewSettings['directory'] . '/books');
 
     // Load app view extensions
     $view->loadExtension(new PlatesAsset(WWW_DIR));

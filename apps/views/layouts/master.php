@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>OpenLibrary</title>
+  <title>OpenLibrary - <?=$page_title?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
@@ -66,17 +66,7 @@
 <?php endforeach; endif; ?>
 
 <script>
-  $(function () {
-    // $('#books-record').DataTable()
-    $('#books-record').DataTable({
-      'paging'      : true,
-      'lengthChange': false,
-      'searching'   : false,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : false
-    })
-  })
+<?php if (isset($custom_js)){ echo $custom_js; }?>
 </script>
 
 </body>
