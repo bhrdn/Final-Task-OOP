@@ -1,16 +1,9 @@
 <?php
 namespace OpenLibrary\Controllers;
 
-use Slim\Http\Request;
-use Slim\Http\Response;
+use OpenLibrary\Task\Fikri\Books;
 
-class BookController extends \OpenLibrary\Controllers
+class BookController extends Books
 {
-    public function index(Request $request, Response $response, array $args)
-    {
-        $this->setPageTitle('Books');
-        return $this->view->render('books::reserved', [
-        	'test' => 'haha'
-        ]);
-    }
+    
 }

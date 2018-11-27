@@ -59,6 +59,10 @@ class BookController {
 
 		return response.status(204).json(null) 
 	}
+
+	async show ({params, response}) {
+		return response.json(await Book.find(params.id))
+	}
 }
 
 module.exports = BookController

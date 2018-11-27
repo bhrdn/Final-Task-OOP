@@ -7,7 +7,10 @@ $this->appendJs([
    'bower_components/datatables.net/js/jquery.dataTables.min.js',
    'bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js'
 ]);
-$this->customJs(" 
+$this->customJs("
+let API_ENDPOINT = location.protocol + '//' + location.host + '/books/'
+let tmpid = 0
+
 $(function () {
    $('#books-record').DataTable({
       'paging'      : true,
@@ -16,6 +19,44 @@ $(function () {
       'ordering'    : true,
       'info'        : true,
       'autoWidth'   : false
+   })
+
+   $('.books-edit').click(function() {
+      tmpid = $(this).attr('books-id')
+      $.get(API_ENDPOINT + tmpid, {}, function(response) {
+         $('#books-edit-title').val(response.title)
+         $('#books-edit-author').val(response.author)
+         $('#books-edit-desc').val(response.description)
+         $('#books-edit-category').val(response.category)
+         $('#books-edit-total').val(response.total)
+      })
+   })
+
+   $('.books-edit-submit').click(function() {
+      $.ajax({
+         url: API_ENDPOINT + tmpid,
+         type: 'PUT',
+         data: {
+            title: $('#books-edit-title').val(),
+            author: $('#books-edit-author').val(),
+            desc: $('#books-edit-desc').val(),
+            category: $('#books-edit-category').val(),
+            total: $('#books-edit-total').val()
+         },
+         success: function(response) {
+            location.reload()
+         }
+      })
+   })
+
+   $('.books-delete').click(function() {
+      $.ajax({
+         url: API_ENDPOINT + $(this).attr('books-id'),
+         type: 'DELETE',
+         success: function(response) {
+            location.reload()
+         }
+      })
    })
 })
 ");
@@ -103,6 +144,7 @@ $(function () {
                      <tbody>
                       <?php if (isset($books)): foreach ($books as $data): ?>
                         <tr>
+                           
                           <td><?= $data->title ?></td>
                           <td><?= $data->author ?></td>
                           <td><?= substr($data->description, 0, 25) . '..' ?></td>
@@ -110,8 +152,8 @@ $(function () {
                           <td><?= $data->total ?? 1 ?></td>
                           <td>
                             <div class="row">
-                              <div class="col-lg-6 col-xs-6"><button type="button" class="btn btn-block btn-warning btn-xs" data-toggle="modal" data-target="#books-edit"><i class="fa fa-edit fa-fw"></i></button></div>
-                              <div class="col-lg-6 col-xs-6"><button type="button" class="btn btn-block btn-danger btn-xs"><i class="fa fa-trash fa-fw"></i></button></div>
+                              <div class="col-lg-6 col-xs-6"><button type="button" class="btn btn-block btn-warning btn-xs books-edit" data-toggle="modal" data-target="#books-edit" books-id="<?= $data->id ?>"><i class="fa fa-edit fa-fw"></i></button></div>
+                              <div class="col-lg-6 col-xs-6"><button type="button" class="btn btn-block btn-danger btn-xs books-delete" books-id="<?= $data->id ?>"><i class="fa fa-trash fa-fw"></i></button></div>
                             </div>
                           </td>
                         </tr>

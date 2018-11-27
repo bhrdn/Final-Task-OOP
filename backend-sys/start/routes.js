@@ -21,8 +21,9 @@ Route.get('/', () => {
 })
 
 Route.group(() => {
-	Route.post('books', 'BookController.store')
+	Route.get('books/:id', 'BookController.show')
 	Route.get('books', 'BookController.index')
+	Route.post('books', 'BookController.store')
 	Route.put('books/:isbn', 'BookController.update')
 	Route.delete('books/:isbn', 'BookController.delete')
 }).prefix('api')

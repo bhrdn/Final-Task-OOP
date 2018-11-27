@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace OpenLibrary\Task\Fikri;
 
 use OpenLibrary\Task\Fikri\BooksInterface;
@@ -8,5 +8,55 @@ use OpenLibrary\Task\Fikri\BooksInterface;
  */
 abstract class AbstractBooks extends \OpenLibrary\Controllers implements BooksInterface
 {
-	
+    protected $title, $author, $desc, $category, $total;
+
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    public function setAuthor($author)
+    {
+    	$this->author = $author;
+    }
+
+    public function setDescription($desc)
+    {
+    	$this->desc = $desc;
+    }
+
+    public function setCategory($category)
+    {
+    	$this->category = $category;
+    }
+
+    public function setTotal($total)
+    {
+    	$this->total = $total;
+    }
+
+    public function getTitle()
+    {
+    	return $this->title;
+    }
+
+    public function getAuthor()
+    {
+    	return $this->author;
+    }
+
+    public function getDescription()
+    {
+    	return $this->desc;
+    }
+
+    public function getCategory()
+    {
+    	return $this->category;
+    }
+
+    public function getTotal()
+    {
+    	return $this->total;
+    }
 }
