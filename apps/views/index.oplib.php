@@ -105,13 +105,13 @@ $(function () {
                         <tr>
                           <td><?= $data->title ?></td>
                           <td><?= $data->author ?></td>
-                          <td><?= $data->description ?></td>
+                          <td><?= substr($data->description, 0, 25) . '..' ?></td>
                           <td><?= $data->category ?></td>
                           <td><?= $data->total ?? 1 ?></td>
                           <td>
                             <div class="row">
-                              <div class="col-lg-4 col-xs-4"><button type="button" class="btn btn-block btn-warning btn-xs" data-toggle="modal" data-target="#books-edit"><i class="fa fa-edit fa-fw"></i></button></div>
-                              <div class="col-lg-4 col-xs-4"><button type="button" class="btn btn-block btn-danger btn-xs"><i class="fa fa-trash fa-fw"></i></button></div>
+                              <div class="col-lg-6 col-xs-6"><button type="button" class="btn btn-block btn-warning btn-xs" data-toggle="modal" data-target="#books-edit"><i class="fa fa-edit fa-fw"></i></button></div>
+                              <div class="col-lg-6 col-xs-6"><button type="button" class="btn btn-block btn-danger btn-xs"><i class="fa fa-trash fa-fw"></i></button></div>
                             </div>
                           </td>
                         </tr>
