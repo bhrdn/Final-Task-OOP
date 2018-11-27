@@ -15,8 +15,7 @@ $(function () {
       'searching'   : false,
       'ordering'    : true,
       'info'        : true,
-      'autoWidth'   : false,
-      'ajax'        : 'http://127.0.0.1:3333/api/books'
+      'autoWidth'   : false
    })
 })
 ");
@@ -70,7 +69,7 @@ $(function () {
             <!-- small box -->
             <div class="small-box bg-maroon">
                <div class="inner">
-                  <h3>44</h3>
+                  <h3><?= count($books) ?></h3>
                   <p>Books Record</p>
                </div>
                <div class="icon">
@@ -102,6 +101,21 @@ $(function () {
                         </tr>
                      </thead>
                      <tbody>
+                      <?php if (isset($books)): foreach ($books as $data): ?>
+                        <tr>
+                          <td><?= $data->title ?></td>
+                          <td><?= $data->author ?></td>
+                          <td><?= $data->description ?></td>
+                          <td><?= $data->category ?></td>
+                          <td><?= $data->total ?? 1 ?></td>
+                          <td>
+                            <div class="row">
+                              <div class="col-lg-4 col-xs-4"><button type="button" class="btn btn-block btn-warning btn-xs" data-toggle="modal" data-target="#books-edit"><i class="fa fa-edit fa-fw"></i></button></div>
+                              <div class="col-lg-4 col-xs-4"><button type="button" class="btn btn-block btn-danger btn-xs"><i class="fa fa-trash fa-fw"></i></button></div>
+                            </div>
+                          </td>
+                        </tr>
+                      <?php endforeach; endif; ?> 
                      </tbody>
                      </tfoot>
                   </table>
@@ -113,68 +127,9 @@ $(function () {
          <!-- /.col -->
       </div>
 
-      <div class="modal fade" id="books-add">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><i class="fa fa-book fa-fw"></i> Manage Books</h4>
-              </div>
-              <div class="modal-body">
-
-                  <!-- form start -->
-                  <form role="form">
-                    <div class="box-body">
-                      <div class="form-group">
-                        <label>Title</label>
-                        <input type="text" class="form-control" id="books-add-title" placeholder="
-Logika Algoritma dan Pemrograman Dasar">
-                      </div>
-
-                      <div class="form-group">
-                        <label>Author</label>
-                        <input type="text" class="form-control" id="books-add-title" placeholder="Rosa A. S.">
-                      </div>
-
-                      <div class="form-group">
-                        <label>Description</label>
-                        <input type="text" class="form-control" id="books-add-title" placeholder="
-Logika Algoritma dan Pemrograman Dasar">
-                      </div>
-
-                      <div class="form-group">
-                        <label>Category</label>
-                        
-                        <select class="form-control">
-                           <option>Bisnis & Ekonomi</option>
-                           <option>Pendidikan</option>
-                           <option>Sastra</option>
-                           <option>Komputer & Teknologi</option>
-                           <option>Gaya Hidup</option>
-                        </select>
-                     </div>
-
-                     <div class="form-group">
-                        <label>Total</label>
-                        <input type="text" class="form-control" id="books-add-title" placeholder="1">
-                      </div>
-                    </div>
-                  </form>
-
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Add books</button>
-              </div>
-            </div>
-            <!-- /.modal-content -->
-          </div>
-          <!-- /.modal-dialog -->
-        </div>
-        <!-- /.modal -->
+      <?= $this->insert('sections::modals') ?>
+   
    </section>
    <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-

@@ -13,13 +13,13 @@ class BookController {
 			'title',
 			'author',
 			'description',
-			'category_id'
+			'category'
 		]), b = new Book()
 
 		b.title 	  = attr.title
 		b.author 	  = attr.author
 		b.description = attr.description
-		b.category_id = attr.category_id
+		b.category = attr.category
 		
 		await b.save()
 
@@ -31,7 +31,7 @@ class BookController {
 			'title',
 			'author',
 			'description',
-			'category_id'
+			'category'
 		]), b = await Book.find(params.isbn)
 
 		if (!b) return response.status(404).json({data: 'Resource not found'})
@@ -39,7 +39,7 @@ class BookController {
 		b.title 	  = attr.title
 		b.author 	  = attr.author
 		b.description = attr.description
-		b.category_id = attr.category_id
+		b.category = attr.category
 
 		await b.save()
 

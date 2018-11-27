@@ -14,7 +14,8 @@
         "projek-xyz/slim-plates": "^0.2.2",
         "php-curl-class/php-curl-class": "^8.3",
         "slim/flash": "^0.4.0",
-        "vlucas/valitron": "^1.4"
+        "vlucas/valitron": "^1.4",
+        "vlucas/phpdotenv": "^2.5"
     },
     "autoload": {
         "psr-4": {

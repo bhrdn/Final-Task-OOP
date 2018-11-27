@@ -3,14 +3,14 @@ namespace OpenLibrary\Controllers;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
+use OpenLibrary\Task\Fikri\Books;
 
-class HomeController extends \OpenLibrary\Controllers
-{
-    public function index(Request $request, Response $response, array $args)
+class HomeController extends Books  {
+    public function index()
     {
         $this->setPageTitle('Dashboard');
         return $this->view->render('index.oplib', [
-        	'test' => 'haha'
+        	'books' => $this->getDatas()
         ]);
     }
 }

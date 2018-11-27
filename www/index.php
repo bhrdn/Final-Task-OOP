@@ -17,6 +17,9 @@ define('WWW_DIR', __DIR__ . _DS_);
 
 session_start();
 
+$dotenv = new Dotenv\Dotenv(ROOT_DIR);
+$dotenv->load();
+
 $container = new Container([
     'settings' => [
         'displayErrorDetails' => true,
@@ -43,6 +46,10 @@ $container['session'] = function () {
 
 $container['flash'] = function () {
     return new Slim\Flash\Messages;
+};
+
+$container['curl'] = function() {
+    return new Curl\Curl;
 };
 
 $container['view'] = function ($container) {
