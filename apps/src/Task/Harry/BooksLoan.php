@@ -19,23 +19,8 @@ class Books extends AbstractBooks
 
     public function fetch(Request $request, Response $response, array $args)
     {
-        if (is_numeric($args['isbn'])) {
-            $this->curl->get(getenv('API_ENDPOINT') . BooksInterface::workspace . $args['isbn']);
-            return $response->withJson($this->curl->response);
-        } else {
-            $this->curl->get(getenv('API_ENDPOINT') . BooksInterface::workspace);
-            if ($this->curl->error) exit;
-
-            $result = array();
-            foreach ($this->curl->response as $datas) {
-                if ($args['isbn'] == strtolower($datas->title)) {
-                    $result[] = $datas->title;
-                }
-            }
-
-            return $response->withJson(['result' => count($result)]);
-        }
-        
+        $this->curl->get(getenv('API_ENDPOINT') . BooksInterface::workspace . $args['isbn']);
+        return $response->withJson($this->curl->response);
     }
 
     public function update(Request $request, Response $response, array $args)

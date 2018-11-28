@@ -26,7 +26,8 @@ abstract class Controllers
     protected function setPageTitle($mainTitle = '')
     {
         $this->view->addData([
-            'page_title'     => $mainTitle
+            'baseurl'    => getenv('BASEURL'),
+            'page_title' => $mainTitle
         ], 'layouts::master');
     }
 

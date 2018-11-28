@@ -16,32 +16,32 @@
                   </div>
                   <div class="form-group">
                      <label>Author</label>
-                     <input type="text" class="form-control" id="books-add-title" placeholder="Rosa A. S.">
+                     <input type="text" class="form-control" id="books-add-author" placeholder="Rosa A. S.">
                   </div>
                   <div class="form-group">
                      <label>Description</label>
-                     <input type="text" class="form-control" id="books-add-title" placeholder="Logika Algoritma dan Pemrograman Dasar">
+                     <input type="text" class="form-control" id="books-add-desc" placeholder="Logika Algoritma dan Pemrograman Dasar">
                   </div>
                   <div class="form-group">
                      <label>Category</label>
-                     <select class="form-control">
-                        <option>Bisnis & Ekonomi</option>
-                        <option>Pendidikan</option>
-                        <option>Sastra</option>
-                        <option>Komputer & Teknologi</option>
-                        <option>Gaya Hidup</option>
+                     <select class="form-control" id="books-add-category">
+                        <option value="Bisnis & Ekonomi">Bisnis & Ekonomi</option>
+                        <option value="Pendidikan">Pendidikan</option>
+                        <option value="Sastra">Sastra</option>
+                        <option value="Komputer & Teknologi">Komputer & Teknologi</option>
+                        <option value="Gaya Hidup">Gaya Hidup</option>
                      </select>
                   </div>
                   <div class="form-group">
                      <label>Total</label>
-                     <input type="text" class="form-control" id="books-add-title" placeholder="1">
+                     <input type="text" class="form-control" id="books-add-total" placeholder="1">
                   </div>
                </div>
             </form>
          </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Add books</button>
+            <button type="button" class="btn btn-primary books-add-submit">Add books</button>
          </div>
       </div>
       <!-- /.modal-content -->

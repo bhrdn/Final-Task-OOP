@@ -6,14 +6,14 @@
   <title>OpenLibrary - <?=$page_title?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="<?=$baseurl?>bower_components/bootstrap/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="<?=$baseurl?>bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="<?=$baseurl?>bower_components/Ionicons/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
-  <link rel="stylesheet" href="dist/css/skins/skin-blue.min.css">
+  <link rel="stylesheet" href="<?=$baseurl?>dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="<?=$baseurl?>dist/css/skins/skin-blue.min.css">
   
   <!-- Custom CSS -->
   <?php if (isset($base_css)): foreach ($base_css as $css): ?>
@@ -35,8 +35,8 @@
 <body class="hold-transition skin-blue sidebar-collapse">
 <div class="wrapper">
 
-  <?= $this->insert('sections::header') ?>
-  <?= $this->insert('sections::left-side') ?>
+  <?= $this->insert('sections::header', ['baseurl' => $baseurl]) ?>
+  <?= $this->insert('sections::left-side', ['baseurl' => $baseurl]) ?>
   <?= $this->section('content') ?>
 
   <!-- Main Footer -->
@@ -54,11 +54,11 @@
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- jQuery 3 -->
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="<?=$baseurl?>bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="<?=$baseurl?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
-<script src="dist/js/adminlte.min.js"></script>
+<script src="<?=$baseurl?>dist/js/adminlte.min.js"></script>
 
 <!-- Customs JS -->
 <?php if (isset($base_js)): foreach ($base_js as $js): ?>

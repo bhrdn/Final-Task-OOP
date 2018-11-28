@@ -49,12 +49,14 @@ class ViewExtension implements ExtensionInterface
 
         // Register view js helpers
         $engine->registerFunction('appendJs', function (array $jsFiles = []) use ($engine) {
-            $engine->addData(['base_js' => $jsFiles]);
+            foreach ($jsFiles as $js) $tmp[] = getenv('BASEURL') . $js;
+            $engine->addData(['base_js' => $tmp]);
         });
 
         // Register view css helpers
         $engine->registerFunction('appendCss', function (array $cssFiles = []) use ($engine) {
-            $engine->addData(['base_css' => $cssFiles]);
+            foreach ($cssFiles as $css) $tmp[] = getenv('BASEURL') . $css;
+            $engine->addData(['base_css' => $tmp]);
         });
 
         // Register custom js helpers

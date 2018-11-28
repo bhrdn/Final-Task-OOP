@@ -58,6 +58,23 @@ $(function () {
          }
       })
    })
+
+   $('.books-add-submit').click(function() {
+      $.ajax({
+         url: API_ENDPOINT,
+         type: 'POST',
+         data: {
+            title: $('#books-add-title').val(),
+            author: $('#books-add-author').val(),
+            desc: $('#books-add-desc').val(),
+            category: $('#books-add-category').val(),
+            total: $('#books-add-total').val()
+         },
+         success: function(response) {
+            location.reload()
+         }
+      })
+   })
 })
 ");
 ?>
@@ -147,7 +164,7 @@ $(function () {
                            
                           <td><?= $data->title ?></td>
                           <td><?= $data->author ?></td>
-                          <td><?= substr($data->description, 0, 25) . '..' ?></td>
+                          <td><?= (strlen($data->description) > 25) ? substr($data->description, 0, 25) . '..' : $data->description ?></td>
                           <td><?= $data->category ?></td>
                           <td><?= $data->total ?? 1 ?></td>
                           <td>
