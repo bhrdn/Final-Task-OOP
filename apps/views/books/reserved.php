@@ -12,28 +12,51 @@ $js = <<<EOF
    
    let API_ENDPOINT = location.protocol + '//' + location.host
    let BOOK = API_ENDPOINT + '/books/'
-   let LOAN = API_ENDPOINT + '/loan/'   
+   let LOAN = API_ENDPOINT + '/loan/'
+   let ST = API_ENDPOINT + '/student/'
+   
+   var x, y;
+   $('#books-borrow-nim').keyup(function() {
+      $.ajax({
+         url: ST + $(this).val(),
+         type: 'GET',
+         success: function(response) {
+            if (response[0]) {
+               x = true
+               $('#books-borrow-name').val(response[0].name)
+            } else {
+               x = false
+               $('#books-borrow-name').val(null)
+               $('.books-borrow-submit').prop('disabled', true)
+            }
+            
+            if (x && y) $('.books-borrow-submit').prop('disabled', false)
+         }
+      })
+   })
 
    $('#books-borrow-title').keyup(function() {
       $.ajax({
          url: BOOK + $(this).val(),
          type: 'GET',
          success: function(response) {
-            if (response.result == 0) $('.books-borrow-submit').prop('disabled', true)
-            else $('.books-borrow-submit').prop('disabled', false)
+            if (response.result == 0) y = true
+            else {
+               y = false
+               $('.books-borrow-submit').prop('disabled', true)
+            }
+            
+            if (x && y) $('.books-borrow-submit').prop('disabled', false)
          }
       })
    })
 
    $('.books-borrow-submit').click(function(e) {
       e.preventDefault()
-      if ($('#books-borrow-nim').val().length == 0) $('.books-borrow-error').html('<div class="callout callout-warning"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-warning"></i> &nbsp;Alert!</h4>This form cant be empty !!</div>')
-      else $('.books-borrow-error').html('x')
-      
-      // ADD LOAN DATAS, THEN DEC TOTAL (BOOK)
+
       $.ajax({
          url: LOAN,
-         type: 'GET',
+         type: 'POST',
          data: {
             uuid: $('#books-borrow-uuid').val(),
             nim: $('#books-borrow-nim').val(),
@@ -41,6 +64,18 @@ $js = <<<EOF
          },
          success: function() {
             $('.books-borrow-error').html('<div class="callout callout-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-check"></i> &nbsp;Success!</h4>' + $('#books-borrow-title').val() + ' successful booked !!</div>')
+         }
+      })
+   })
+
+   $('.books-rsv-submit').click(function(e) {
+      e.preventDefault()
+      
+      $.ajax({
+         url: LOAN + $('#books-rsv-id').val(),
+         type: 'PUT',
+         success: function(res) {
+            alert(res)
          }
       })
    })
@@ -95,6 +130,11 @@ $this->customJs($js);
                         </div>
 
                         <div class="form-group">
+                           <label>Nama Mahasiswa</label>
+                           <input type="text" class="form-control" id="books-borrow-name" disabled>  
+                        </div>
+
+                        <div class="form-group">
                            <label>Judul Buku</label>
                            <input type="text" class="form-control" id="books-borrow-title" placeholder="Dasar Algoritma">
                         </div>
@@ -126,12 +166,12 @@ $this->customJs($js);
                      <div class="box-body">
                         <div class="form-group">
                            <label>Reserved ID</label>
-                           <input type="text" class="form-control" id="books-borrow-bid">  
+                           <input type="text" class="form-control" id="books-rsv-id">  
                         </div>
                      </div>
                      <!-- /.box-body -->
                      <div class="box-footer">
-                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                        <button type="submit" class="btn btn-primary btn-block books-rsv-submit">Submit</button>
                      </div>
                   </form>
                </div>

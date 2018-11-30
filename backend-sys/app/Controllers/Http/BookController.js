@@ -61,7 +61,7 @@ class BookController {
 	}
 
 	async show ({params, response}) {
-		return response.json(await Book.find(params.id))
+		return response.json(await Book.find(params.isbn))
 	}
 }
 

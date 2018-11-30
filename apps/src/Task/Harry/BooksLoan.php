@@ -1,5 +1,5 @@
 <?php
-namespace OpenLibrary\Task\Fikri;
+namespace OpenLibrary\Task\Harry;
 
 use OpenLibrary\Task\Fikri\AbstractBooks;
 use Slim\Http\Request;
@@ -8,64 +8,79 @@ use Slim\Http\Response;
 /**
  * Books
  */
-class Books extends AbstractBooks
+class BooksLoan extends AbstractBooks
 {
+    const workspace = 'loan/';
+
     public function getDatas()
     {
-        $this->curl->get(getenv('API_ENDPOINT') . BooksInterface::workspace);
+        $this->curl->get(getenv('API_ENDPOINT') . BooksLoan::workspace);
 
         return ($this->curl->error) ? [] : $this->curl->response;
     }
 
     public function fetch(Request $request, Response $response, array $args)
     {
-        $this->curl->get(getenv('API_ENDPOINT') . BooksInterface::workspace . $args['isbn']);
-        return $response->withJson($this->curl->response);
+        if ($args['id'] == "*") {
+            return $response->withJson($this->getDatas());
+        } else {
+            $this->curl->get(getenv('API_ENDPOINT') . BooksLoan::workspace . $args['id']);
+            return $response->withJson($this->curl->response);
+        }
     }
 
     public function update(Request $request, Response $response, array $args)
     {
-        $this->curl->get(getenv('API_ENDPOINT') . BooksInterface::workspace . $args['isbn']);
-        if (empty($this->curl->response)) exit;
+        foreach ($this->getDatas() as $data) {
+            if ($data->reserved_id == $args['id']) {
+                $this->curl->put(getenv('API_ENDPOINT') . BooksLoan::workspace . $args['id'], [
+                    'reserved_id' => $data->reserved_id,
+                    'id_books'    => $args['id'],
+                    'nim'         => $data->nim,
+                    'title'       => $data->title,
+                    'status'      => 0,
+                ]);
 
-        $datas = $request->getParsedBody();
+                return $this->curl->response;
+                break;
+            }
+        }
 
-        $this->setTitle($datas['title']);
-        $this->setAuthor($datas['author']);
-        $this->setDescription($datas['desc']);
-        $this->setCategory($datas['category']);
-        $this->setTotal($datas['total']);
+        return '!OK';
 
-        $this->curl->put(getenv('API_ENDPOINT') . BooksInterface::workspace . $args['isbn'], [
-            'title'       => $this->getTitle(),
-            'author'      => $this->getAuthor(),
-            'description' => $this->getDescription(),
-            'category'    => $this->getCategory(),
-            'total'       => $this->getTotal(),
-        ]);
-    }
-
-    public function delete(Request $request, Response $response, array $args)
-    {
-        $this->curl->delete(getenv('API_ENDPOINT') . BooksInterface::workspace . $args['isbn']);
     }
 
     public function store(Request $request, Response $response, array $args)
     {
-        $datas = $request->getParsedBody();
+        list($datas, $status) = [$request->getParsedBody(), false];
 
-        $this->setTitle($datas['title']);
-        $this->setAuthor($datas['author']);
-        $this->setDescription($datas['desc']);
-        $this->setCategory($datas['category']);
-        $this->setTotal($datas['total']);
+        $this->curl->get(getenv('BASEURL') . 'books/*');
+        var_dump($datas['title']);
+        foreach ($this->curl->response as $data) {
+            if (strtolower($datas['title']) == strtolower($data->title)) {
 
-        $this->curl->post(getenv('API_ENDPOINT') . BooksInterface::workspace, [
-            'title'       => $this->getTitle(),
-            'author'      => $this->getAuthor(),
-            'description' => $this->getDescription(),
-            'category'    => $this->getCategory(),
-            'total'       => $this->getTotal(),
-        ]);
+                if ($data->total == 0) {
+                    $status = true;
+                    break;
+                }
+
+                $this->curl->put(getenv('API_ENDPOINT') . 'books/' . $data->id, [
+                    'title'       => $data->title,
+                    'author'      => $data->author,
+                    'description' => $data->description,
+                    'category'    => $data->category,
+                    'total'       => $data->total - 1,
+                ]);
+
+                $this->curl->post(getenv('API_ENDPOINT') . BooksLoan::workspace, [
+                    'id_books'    => $data->id,
+                    'reserved_id' => $datas['uuid'],
+                    'nim'         => $datas['nim'],
+                    'title'       => $datas['title'],
+                    'status'      => 1,
+                ]);
+                break;
+            }
+        }
     }
 }

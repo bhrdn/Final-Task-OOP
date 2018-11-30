@@ -5,7 +5,7 @@ const Model = use('Model')
 
 class Student extends Model {
 	static get table() {
-		return 'student'
+		return 'students'
 	}
 
 	static get primaryKey() {

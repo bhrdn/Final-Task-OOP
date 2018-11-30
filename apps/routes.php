@@ -13,9 +13,13 @@ $app->group('/books', function() {
 
 $app->group('/loan', function() {
 	$this->post('[/]', Controllers\BooksLoanController::class . ':store');
-	$this->get('/{isbn}', Controllers\BooksLoanController::class . ':fetch');
-	$this->put('/{isbn:[0-9]+}', Controllers\BooksLoanController::class . ':update');
-	$this->delete('/{isbn:[0-9]+}', Controllers\BooksLoanController::class . ':delete');
+	$this->get('/{id}', Controllers\BooksLoanController::class . ':fetch');
+	$this->put('/{id}', Controllers\BooksLoanController::class . ':update');
+});
+
+$app->group('/student', function() {
+	$this->post('[/]', Controllers\StudentController::class . ':store');
+	$this->get('/{id}', Controllers\StudentController::class . ':fetch');
 });
 
 $app->group('/books-manager', function() {

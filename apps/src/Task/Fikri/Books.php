@@ -22,6 +22,8 @@ class Books extends AbstractBooks
         if (is_numeric($args['isbn'])) {
             $this->curl->get(getenv('API_ENDPOINT') . BooksInterface::workspace . $args['isbn']);
             return $response->withJson($this->curl->response);
+        } elseif ($args['isbn'] == "*") {
+            return $response->withJson($this->getDatas());
         } else {
             $this->curl->get(getenv('API_ENDPOINT') . BooksInterface::workspace);
             if ($this->curl->error) exit;

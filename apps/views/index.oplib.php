@@ -8,10 +8,27 @@ $this->appendJs([
    'bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js'
 ]);
 $this->customJs("
-let API_ENDPOINT = location.protocol + '//' + location.host + '/books/'
+
+let STUDENT_URI = location.protocol + '//' + location.host + '/student/'
+let BOOKS_URI = location.protocol + '//' + location.host + '/books/'
+let LOAN_URI = location.protocol + '//' + location.host + '/loan/'
+
 let tmpid = 0
 
 $(function () {
+   
+   $.get(BOOKS_URI + '*', {}, (response) => {
+      $('.count-books').text(Object.keys(response).length)
+   })
+
+   // $.get(LOAN_URI + '*', {}, (response) => {
+   //    $('.count-booksloan').text(Object.keys(response).length)
+   // })
+
+   // $.get(STUDENT_URI + '*', {}, (response) => {
+   //    $('.count-students').text(Object.keys(response).length)
+   // })
+
    $('#books-record').DataTable({
       'paging'      : true,
       'lengthChange': false,
@@ -23,7 +40,7 @@ $(function () {
 
    $('.books-edit').click(function() {
       tmpid = $(this).attr('books-id')
-      $.get(API_ENDPOINT + tmpid, {}, function(response) {
+      $.get(BOOKS_URI + tmpid, {}, function(response) {
          $('#books-edit-title').val(response.title)
          $('#books-edit-author').val(response.author)
          $('#books-edit-desc').val(response.description)
@@ -34,7 +51,7 @@ $(function () {
 
    $('.books-edit-submit').click(function() {
       $.ajax({
-         url: API_ENDPOINT + tmpid,
+         url: BOOKS_URI + tmpid,
          type: 'PUT',
          data: {
             title: $('#books-edit-title').val(),
@@ -51,7 +68,7 @@ $(function () {
 
    $('.books-delete').click(function() {
       $.ajax({
-         url: API_ENDPOINT + $(this).attr('books-id'),
+         url: BOOKS_URI + $(this).attr('books-id'),
          type: 'DELETE',
          success: function(response) {
             location.reload()
@@ -61,7 +78,7 @@ $(function () {
 
    $('.books-add-submit').click(function() {
       $.ajax({
-         url: API_ENDPOINT,
+         url: BOOKS_URI,
          type: 'POST',
          data: {
             title: $('#books-add-title').val(),
@@ -99,7 +116,7 @@ $(function () {
             <!-- small box -->
             <div class="small-box bg-green">
                <div class="inner">
-                  <h3>100</h3>
+                  <h3 class="count-students"></h3>
                   <p>Registered Students</p>
                </div>
                <div class="icon">
@@ -113,7 +130,7 @@ $(function () {
             <!-- small box -->
             <div class="small-box bg-yellow">
                <div class="inner">
-                  <h3>10</h3>
+                  <h3 class="count-booksloan"></h3>
                   <p>Reserved Books</p>
                </div>
                <div class="icon">
@@ -127,7 +144,7 @@ $(function () {
             <!-- small box -->
             <div class="small-box bg-maroon">
                <div class="inner">
-                  <h3><?= count($books) ?></h3>
+                  <h3 class="count-books"></h3>
                   <p>Books Record</p>
                </div>
                <div class="icon">

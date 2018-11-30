@@ -1,14 +1,15 @@
 <?php
-namespace OpenLibrary\Task\Fikri;
+namespace OpenLibrary\Task\Harry;
 
 use OpenLibrary\Task\Fikri\BooksInterface;
 
 /**
  * Books Abstract
  */
-abstract class AbstractBooks extends \OpenLibrary\Controllers implements BooksInterface
+abstract class AbstractBooksLoan extends \OpenLibrary\Controllers implements BooksInterface
 {
     protected $title, $author, $desc, $category, $total;
+    public $workspace = 'loan/';
 
     public function setTitle($title)
     {
