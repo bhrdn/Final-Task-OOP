@@ -27,6 +27,7 @@
             </a>
             <ul class="treeview-menu">
                <li><a href="<?=$baseurl?>books-manager"><i class="fa fa-angle-double-right fa-fw"></i> <span>Reserved Books</span></a></li>
+               <li><a href="<?=$baseurl?>books-manager/view-loan"><i class="fa fa-angle-double-right fa-fw"></i> <span>View BooksLoan</span></a></li>
             </ul>
          </li>
       </ul>

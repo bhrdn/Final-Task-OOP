@@ -32,16 +32,18 @@ class BooksLoan extends AbstractBooks
     public function update(Request $request, Response $response, array $args)
     {
         foreach ($this->getDatas() as $data) {
-            if ($data->reserved_id == $args['id']) {
-                $this->curl->put(getenv('API_ENDPOINT') . BooksLoan::workspace . $args['id'], [
-                    'reserved_id' => $data->reserved_id,
-                    'id_books'    => $args['id'],
-                    'nim'         => $data->nim,
-                    'title'       => $data->title,
-                    'status'      => 0,
+            if ($data->reserved_id == $args['id'] && $data->status == 1) {
+
+                $this->curl->put(getenv('API_ENDPOINT') . BooksLoan::workspace . $data->id, [
+                    'status' => 0,
                 ]);
 
-                return $this->curl->response;
+                $this->curl->get(getenv('API_ENDPOINT') . 'books/' . $data->id_books);
+                $this->curl->put(getenv('API_ENDPOINT') . 'books/' . $data->id_books, [
+                    'total' => $this->curl->response->total + 1,
+                ]);
+
+                return 'OK';
                 break;
             }
         }
@@ -55,12 +57,11 @@ class BooksLoan extends AbstractBooks
         list($datas, $status) = [$request->getParsedBody(), false];
 
         $this->curl->get(getenv('BASEURL') . 'books/*');
-        var_dump($datas['title']);
+
         foreach ($this->curl->response as $data) {
             if (strtolower($datas['title']) == strtolower($data->title)) {
 
                 if ($data->total == 0) {
-                    $status = true;
                     break;
                 }
 
@@ -79,8 +80,26 @@ class BooksLoan extends AbstractBooks
                     'title'       => $datas['title'],
                     'status'      => 1,
                 ]);
+
+                return $response->withJson($this->curl->response);
                 break;
             }
         }
+    }
+
+    public function datatables(Request $request, Response $response, array $args)
+    {
+        $result = array();
+        foreach ($this->getDatas() as $data) {
+            $result[] = [
+                'rsv'       => $data->reserved_id,
+                'title'     => $data->title,
+                'tanggal_1' => $data->created_at,
+                'tanggal_2' => ($data->updated_at == $data->created_at) ? '-' : $data->updated_at,
+                'status'    => ($data->status == 0) ? "<span class='label label-success'>Buku Sudah Dikembalikan</span>" : "<span class='label label-danger'>Buku Belum Dikembalikan</span>",
+            ];
+        }
+
+        return $response->withJson(['data' => $result]);
     }
 }

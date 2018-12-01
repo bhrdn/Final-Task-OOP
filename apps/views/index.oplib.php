@@ -21,13 +21,13 @@ $(function () {
       $('.count-books').text(Object.keys(response).length)
    })
 
-   // $.get(LOAN_URI + '*', {}, (response) => {
-   //    $('.count-booksloan').text(Object.keys(response).length)
-   // })
+   $.get(LOAN_URI + '*', {}, (response) => {
+      $('.count-booksloan').text(Object.keys(response).length)
+   })
 
-   // $.get(STUDENT_URI + '*', {}, (response) => {
-   //    $('.count-students').text(Object.keys(response).length)
-   // })
+   $.get(STUDENT_URI + '*', {}, (response) => {
+      $('.count-students').text(Object.keys(response).length)
+   })
 
    $('#books-record').DataTable({
       'paging'      : true,
@@ -131,7 +131,7 @@ $(function () {
             <div class="small-box bg-yellow">
                <div class="inner">
                   <h3 class="count-booksloan"></h3>
-                  <p>Reserved Books</p>
+                  <p>Reserved Books (1 Month)</p>
                </div>
                <div class="icon">
                   <i class="ion ion-folder"></i>
@@ -155,6 +155,7 @@ $(function () {
          </div>
          <!-- ./col -->
       </div>
+      
       <div class="row">
          <div class="col-xs-12">
             <div class="box">
@@ -202,7 +203,6 @@ $(function () {
          </div>
          <!-- /.col -->
       </div>
-
       <?= $this->insert('sections::modals') ?>
    
    </section>

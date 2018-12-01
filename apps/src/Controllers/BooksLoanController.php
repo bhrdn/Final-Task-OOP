@@ -14,4 +14,12 @@ class BooksLoanController extends BooksLoan
             'uuid_gen' => Uuid::uuid4()->toString()
         ]);
     }
+
+    public function view()
+    {
+        $this->setPageTitle('View BooksLoan');
+        return $this->view->render('books::view-loan', [
+            'uuid_gen' => Uuid::uuid4()->toString()
+        ]);
+    }
 }

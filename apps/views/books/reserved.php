@@ -9,13 +9,26 @@ $this->appendJs([
 ]);
 
 $js = <<<EOF
-   
+
    let API_ENDPOINT = location.protocol + '//' + location.host
    let BOOK = API_ENDPOINT + '/books/'
    let LOAN = API_ENDPOINT + '/loan/'
    let ST = API_ENDPOINT + '/student/'
-   
-   var x, y;
+
+   var x, y, z = $('#viewloan-tables').dataTable({
+      'ajax': {
+         url: API_ENDPOINT + '/datatables/loan',
+         type: 'GET'
+      },
+      columns: [
+         { data: 'rsv' },
+         { data: 'title' },
+         { data: 'tanggal_1' },
+         { data: 'tanggal_2' },
+         { data: 'status' }
+      ]
+   });
+
    $('#books-borrow-nim').keyup(function() {
       $.ajax({
          url: ST + $(this).val(),
@@ -63,6 +76,7 @@ $js = <<<EOF
             title: $('#books-borrow-title').val()
          },
          success: function() {
+            z.api().ajax.reload();
             $('.books-borrow-error').html('<div class="callout callout-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-check"></i> &nbsp;Success!</h4>' + $('#books-borrow-title').val() + ' successful booked !!</div>')
          }
       })
@@ -74,11 +88,18 @@ $js = <<<EOF
       $.ajax({
          url: LOAN + $('#books-rsv-id').val(),
          type: 'PUT',
-         success: function(res) {
-            alert(res)
+         success: (res) => {
+            z.api().ajax.reload();
+            if (res == 'OK') $('.books-rsv-error').html('<div class="callout callout-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-check"></i> &nbsp;Success!</h4> The book has been returned !!</div>')
+            else $('.books-rsv-error').html('<div class="callout callout-danger"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-close"></i> &nbsp;Failed!</h4> Reserved id not found !!</div>')
+         },
+         error: () => { 
+            $('.books-rsv-error').html('<div class="callout callout-danger"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-close"></i> &nbsp;Failed!</h4> Reserved id not found !!</div>') 
          }
       })
    })
+   
+   z.api().ajax.reload();
 
 EOF;
 
@@ -99,7 +120,8 @@ $this->customJs($js);
       </ol>
    </section>
    <!-- Main content -->
-   <section class="content container-fluid">
+   <section class="content container-fluid">  
+   
       <div class="row">
          <div class="col-md-6">
             <div class="box box-primary">
@@ -164,6 +186,9 @@ $this->customJs($js);
                   <!-- form start -->
                   <form role="form">
                      <div class="box-body">
+                        <!-- error msg -->
+                        <div class="books-rsv-error"></div>
+
                         <div class="form-group">
                            <label>Reserved ID</label>
                            <input type="text" class="form-control" id="books-rsv-id">  
@@ -180,6 +205,39 @@ $this->customJs($js);
             <!-- /.box -->
          </div>
       </div>
+
+      <div class="row">
+         <div class="col-md-12">
+            <div class="box box-primary">
+               <div class="box-header with-border">
+                  <h3 class="box-title"><i class="fa fa-database fa-fw"></i> <span>Record BooksLoan</span></h3>
+                  <div class="box-tools pull-right">
+                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                     </button>
+                  </div>
+                  <!-- /.box-tools -->
+               </div>
+               <!-- /.box-header -->
+               <div class="box-body">
+                  <table id="viewloan-tables" class="table table-bordered table-striped">
+                     <thead>
+                        <tr>
+                           <th>ID Pinjam</th>
+                           <th>Judul</th>
+                           <th>Tanggal Pinjam</th>
+                           <th>Tanggal Pengembalian</th>
+                           <th>Status</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                     </tbody>
+                  </table>
+               </div>
+               <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+         </div>
+      </div> 
    </section>
    <!-- /.content -->
 </div>

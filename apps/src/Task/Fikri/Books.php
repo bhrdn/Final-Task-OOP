@@ -75,14 +75,14 @@ class Books extends AbstractBooks
         $this->setAuthor($datas['author']);
         $this->setDescription($datas['desc']);
         $this->setCategory($datas['category']);
-        $this->setTotal($datas['total']);
+        $this->setTotal(($datas['total'] > 1) ? $datas['total'] : 1);
 
         $this->curl->post(getenv('API_ENDPOINT') . BooksInterface::workspace, [
             'title'       => $this->getTitle(),
             'author'      => $this->getAuthor(),
             'description' => $this->getDescription(),
             'category'    => $this->getCategory(),
-            'total'       => $this->getTotal(),
+            'total'       => ($this->getTotal()) ,
         ]);
     }
 }
