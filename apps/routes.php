@@ -24,7 +24,6 @@ $app->group('/student', function() {
 
 $app->group('/books-manager', function() {
 	$this->get('[/]', Controllers\BooksLoanController::class . ':index');
-	$this->get('/view-loan', Controllers\BooksLoanController::class . ':view');
 });
 
 $app->group('/datatables', function() {
